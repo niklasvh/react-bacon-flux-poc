@@ -1,5 +1,5 @@
 var Bacon = require('baconjs');
-var BaconAction = require('../../lib/bacon-action');
+var BaconAction = require('../../../lib/bacon-action');
 
 module.exports = function() {
     return {
@@ -7,7 +7,9 @@ module.exports = function() {
          * @param  {string} text
          */
         create: new BaconAction(function(text) {
-            this.push({text: text});
+            if (text.trim()) {
+                this.push(text);
+            }
         }),
 
         /**
@@ -24,7 +26,7 @@ module.exports = function() {
          */
         toggleComplete: new BaconAction(function(todo) {
             var id = todo.id;
-            this.push({id: id, complete: todo.complete});
+            this.push({id: id, complete: !todo.complete});
         }),
         /**
          * Mark all ToDos as complete
@@ -41,8 +43,8 @@ module.exports = function() {
         /**
          * Delete all the completed ToDos
          */
-        destroyCompleted: new BaconAction()
+        destroyCompleted: new BaconAction(),
 
+        setFilter:  new BaconAction()
     };
-
 };

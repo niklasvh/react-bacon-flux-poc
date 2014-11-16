@@ -1,92 +1,31 @@
+var development = process.env.NODE_ENV !== 'production';
 var express = require('express');
 var React = require('react');
-require('node-jsx').install();
-var App = React.createFactory(require('./client'));
+var path = require('path');
+var browserify = require('connect-browserify');
 var Bacon = require('baconjs');
+require('node-jsx').install({harmony: true});
+var Context = require('./context');
 
 var port = 8080;
 var server = express();
+var Application = React.createFactory(require('./client'));
 
-var app = App({a: 'b', context: 'c'});
-app._context = {lol: 'a'};
+server.disable('x-powered-by');
 
-console.log(app);
+if (development) {
+    server.get('/app.js', browserify({
+        entry: path.resolve(__dirname, './client'),
+        debug: false,
+        watch: true
+    }));
+}
 
+server.use('/todomvc-common', express.static(__dirname + '/todomvc-common'));
 
-console.log(React.renderToString(app));
-
-
-
-server.use(function (req, res, next) {
-
-    res.send(200);
+server.get('/', function(req, res) {
+    res.send(React.renderToString(Context(Application)));
 });
 
 server.listen(port);
 console.log("Server running on port", port);
-
-/*
-function BaconAction(handler) {
-    this._emitHandler = handler;
-    this._currentValue = null;
-    this.sink = null;
-    Bacon.EventStream.call(this, "BaconAction", this.subscribeAll.bind(this));
-}
-
-
-BaconAction.prototype = Object.create(Bacon.EventStream.prototype);
-BaconAction.prototype.emit = function() {
-    this._emitHandler.apply(this, arguments);
-};
-
-BaconAction.prototype.subscribeAll = function() {
-    console.log('subscribeAll', arguments);
-    return this.unsubAll;
-};
-
-BaconAction.prototype.unsubAll = function() {
-    this.subscriptions.forEach(function(subscriber) {
-        if (typeof subscriber.unsub === "function") {
-            subscriber.unsub();
-        }
-    });
-};
-
-BaconAction.prototype.guardedSink = function(input) {
-    return (function(_this) {
-        return function(event) {
-            if (event.isEnd()) {
-                _this.unsubscribeInput(input);
-                return Bacon.noMore;
-            } else {
-                return _this.sink(event);
-            }
-        };
-    })(this);
-};
-
-BaconAction.prototype.push = function(value) {
-    return typeof this.sink === "function" ? this.sink(Bacon.next(value)) : void 0;
-};
-*/
-
-function BaconAction(handler) {
-    this._emitHandler = handler;
-    this._currentValue = null;
-    Bacon.Bus.call(this);
-}
-
-BaconAction.prototype = Object.create(Bacon.Bus.prototype);
-BaconAction.prototype.emit = function() {
-    this._emitHandler.apply(this, arguments);
-};
-
-BaconAction.prototype.constructor = BaconAction;
-
-var action = new BaconAction(function(text, thing) {
-    this.push({text: text, thing: thing});
-});
-
-action.log();
-
-action.emit("item", "lol");
