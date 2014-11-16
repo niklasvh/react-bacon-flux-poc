@@ -1,0 +1,33 @@
+{
+  "name": "react-bacon",
+  "version": "0.0.1",
+  "description": "",
+  "main": "examples/simple-site/server.js",
+  "dependencies": {
+    "baconjs": "0.7.33",
+    "browserify": "^6.3.2",
+    "connect-browserify": "^3.2.1",
+    "express": "^4.10.2",
+    "immutable": "^3.2.1",
+    "keymirror": "^0.1.0",
+    "node-jsx": "0.12.0",
+    "react": "0.12.0",
+    "react-tools": "0.12.0",
+    "reactify": "^0.16.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "reactify",
+        {
+          "harmony": true
+        }
+      ]
+    ]
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Niklas von Hertzen",
+  "license": "MIT"
+}
