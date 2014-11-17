@@ -20,7 +20,9 @@ if (development) {
         watch: true
     }));
 } else {
-    server.get('/app.js', express.static(__dirname + '/app.js'));
+    server.get('/app.js', function(req, res) {
+        res.sendfile(path.resolve(__dirname, './app.js'));
+    });
 }
 
 server.use('/todomvc-common', express.static(__dirname + '/todomvc-common'));
