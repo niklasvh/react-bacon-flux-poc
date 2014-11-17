@@ -19,6 +19,8 @@ if (development) {
         debug: false,
         watch: true
     }));
+} else {
+    server.get('/app.js', express.static(__dirname + '/app.js'));
 }
 
 server.use('/css', express.static(__dirname + '/css'));
