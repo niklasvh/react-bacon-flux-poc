@@ -2,7 +2,7 @@
   "name": "react-bacon",
   "version": "0.0.1",
   "description": "",
-  "main": "examples/simple-site/server.js",
+  "main": "examples/flux-todomvc/server.js",
   "dependencies": {
     "baconjs": "0.7.33",
     "browserify": "^6.3.2",
