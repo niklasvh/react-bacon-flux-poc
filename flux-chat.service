@@ -1,0 +1,16 @@
+[Unit]
+Description=flux-chat example
+After=docker.service
+
+[Service]
+Restart=always
+RestartSec=5
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill flux-chat
+ExecStartPre=-/usr/bin/docker rm flux-chat
+ExecStartPre=/usr/bin/docker pull quay.io/niklasvh/react-bacon-flux-poc:latest
+ExecStart=/usr/bin/docker run --rm --name flux-chat -p 8086:8080 quay.io/niklasvh/react-bacon-flux-poc:latest node /opt/app/examples/flux-chat/server
+ExecStop=/usr/bin/docker kill flux-chat
+
+[X-Fleet]
+X-Conflicts=flux-chat.service

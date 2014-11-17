@@ -1,0 +1,16 @@
+[Unit]
+Description=flux-todomvc example
+After=docker.service
+
+[Service]
+Restart=always
+RestartSec=5
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill flux-todomvc
+ExecStartPre=-/usr/bin/docker rm flux-todomvc
+ExecStartPre=/usr/bin/docker pull quay.io/niklasvh/react-bacon-flux-poc:latest
+ExecStart=/usr/bin/docker run --rm --name flux-todomvc -p 8085:8080 quay.io/niklasvh/react-bacon-flux-poc:latest node /opt/app/examples/flux-todomvc/server
+ExecStop=/usr/bin/docker kill flux-todomvc
+
+[X-Fleet]
+X-Conflicts=flux-todomvc.service
