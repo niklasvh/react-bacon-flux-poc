@@ -1,5 +1,5 @@
 {
-  "name": "react-bacon",
+  "name": "react-bacon-flux-poc",
   "version": "0.0.1",
   "description": "",
   "main": "examples/flux-todomvc/server.js",
