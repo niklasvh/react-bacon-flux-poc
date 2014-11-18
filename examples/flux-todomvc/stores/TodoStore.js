@@ -21,7 +21,7 @@ module.exports = function(actions) {
     var destroyCompleted = actions.todo.destroyCompleted.map(() => todos => todos.filterNot(isComplete));
 
     var todos = Bacon.mergeAll(createTodo, destroyTodo, updateText, updateComplete, updateAllComplete, destroyCompleted)
-        .scan(Immutable.Map(), applyModification);
+        .scan(Immutable.OrderedMap(), applyModification);
 
     var currentFilter = actions.todo.setFilter.toProperty(Constants.FILTER_ALL);
     var todoFilter = currentFilter.map(filter => {
