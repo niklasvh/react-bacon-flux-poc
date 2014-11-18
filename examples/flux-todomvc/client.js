@@ -16,7 +16,7 @@ var App = React.createClass({
                 <TodoApp />
                 <footer id="info">
                     <p>Double-click to edit a todo</p>
-                    <p>Created by <a href="https://github.com/niklasvh">Niklas von Hertzen</a></p>
+                    <p>Created by <a href="https://github.com/niklasvh">Niklas von Hertzen</a>, based on implementation by <a href="http://facebook.com/bill.fisher.771">Bill Fisher</a></p>
                     <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
                 </footer>
                 <script src="app.js" async></script>
