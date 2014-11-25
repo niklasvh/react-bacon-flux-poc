@@ -20,13 +20,13 @@ var TodoItem = React.createClass({
                 <div className="view">
                     <input className="toggle" type="checkbox" checked={todo.complete} onChange={this._onToggleComplete} />
                     <label onDoubleClick={this._onDoubleClick}>
-                    {todo.text}
+                        {todo.text}
                     </label>
                     <button className="destroy" onClick={this._onDestroyClick} />
                 </div>
                 {input}
             </li>
-            );
+        );
     },
     _onToggleComplete: function() {
         this.getActions().todo.toggleComplete.emit(this.props.todo);
