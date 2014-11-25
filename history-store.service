@@ -1,0 +1,16 @@
+[Unit]
+Description=history-store example
+After=docker.service
+
+[Service]
+Restart=always
+RestartSec=5
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill history-store
+ExecStartPre=-/usr/bin/docker rm history-store
+ExecStartPre=/usr/bin/docker pull quay.io/niklasvh/react-bacon-flux-poc:latest
+ExecStart=/usr/bin/docker run --rm --name history-store -p ${COREOS_PRIVATE_IPV4}:8086:8080 quay.io/niklasvh/react-bacon-flux-poc:latest node /opt/app/examples/history-store/server
+ExecStop=/usr/bin/docker kill history-store
+
+[X-Fleet]
+X-Conflicts=history-store.service
