@@ -1,7 +1,7 @@
 # Getting started
 
-`npm install`
-`npm start`
+    npm install
+    npm start
 
 ## Actions (Bacon.Bus:es) available
 
@@ -25,7 +25,7 @@
  - `allComplete`: Current todos marked complete
 
 ## Functionality
-(full spec)[https://github.com/tastejs/todomvc/blob/master/app-spec.md]
+[full spec](https://github.com/tastejs/todomvc/blob/master/app-spec.md)
 
 ### No todos
 
