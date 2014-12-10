@@ -1,50 +1,41 @@
 var Bacon = require('baconjs');
-var BaconAction = require('../../../lib/bacon-action');
 
 module.exports = function() {
     return {
         /**
-         * @param  {string} text
+         * Create a new ToDo item
+         * @param  {string} text for new todo item
          */
-        create: new BaconAction(function(text) {
-            if (text.trim()) {
-                this.push(text);
-            }
-        }),
+        create: new Bacon.Bus(),
 
         /**
          * @param  {string} id The ID of the ToDo item
          * @param  {string} text
          */
-        updateText: new BaconAction(function(id, text) {
-            this.push({id: id, text: text});
-        }),
+        updateText: new Bacon.Bus(),
 
         /**
          * Toggle whether a single ToDo is complete
          * @param  {object} todo
          */
-        toggleComplete: new BaconAction(function(todo) {
-            var id = todo.id;
-            this.push({id: id, complete: !todo.complete});
-        }),
+        toggleComplete: new Bacon.Bus(),
+
         /**
          * Mark all ToDos as complete
          */
-
-        toggleCompleteAll: new BaconAction(),
+        toggleCompleteAll: new Bacon.Bus(),
 
         /**
-         * @param  {string} id
+         * Destroy a single ToDo
+         * @param  {object} todo
          */
-
-        destroy: new BaconAction(),
+        destroy: new Bacon.Bus(),
 
         /**
          * Delete all the completed ToDos
          */
-        destroyCompleted: new BaconAction(),
+        destroyCompleted: new Bacon.Bus(),
 
-        setFilter:  new BaconAction()
+        setFilter:  new Bacon.Bus()
     };
 };

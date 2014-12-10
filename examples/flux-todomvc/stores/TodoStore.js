@@ -8,20 +8,21 @@ var create = text => Immutable.Map({
     text: text
 });
 
+var nonEmpty = text => text.trim().length > 0;
 var isComplete = todo => todo.get('complete');
 var toJS = todos => todos.toList().toJS();
 var applyModification = (todos, modification) => modification(todos);
 
 module.exports = function(actions) {
-    var createTodo = actions.todo.create.map(create).map(todo => todos => todos.set(todo.get('id'), todo));
-    var destroyTodo = actions.todo.destroy.map(id => todos => todos.delete(id));
-    var updateText = actions.todo.updateText.map(todo => todos => todos.setIn([todo.id, "text"], todo.text));
-    var updateComplete = actions.todo.toggleComplete.map(todo => todos => todos.setIn([todo.id, "complete"], todo.complete));
-    var updateAllComplete = actions.todo.toggleCompleteAll.map(() => todos => todos.map(todo => todo.set('complete', true)));
-    var destroyCompleted = actions.todo.destroyCompleted.map(() => todos => todos.filterNot(isComplete));
-
-    var todos = Bacon.mergeAll(createTodo, destroyTodo, updateText, updateComplete, updateAllComplete, destroyCompleted)
-        .scan(Immutable.OrderedMap(), applyModification);
+    var todos = Bacon.update(
+        Immutable.OrderedMap(),
+        actions.todo.create.filter(nonEmpty).map(create), (todos, todo) => todos.set(todo.get('id'), todo),
+        actions.todo.destroy, (todos, todo) => todos.delete(todo.id),
+        actions.todo.updateText, (todos, todo) => todos.setIn([todo.id, "text"], todo.text),
+        actions.todo.toggleComplete, (todos, todo) => todos.setIn([todo.id, "complete"], !todo.complete),
+        actions.todo.toggleCompleteAll, (todos) => todos.map(todo => todo.set('complete', true)),
+        actions.todo.destroyCompleted, (todos) => todos.filterNot(isComplete)
+    );
 
     var currentFilter = actions.todo.setFilter.toProperty(Constants.FILTER_ALL);
     var todoFilter = currentFilter.map(filter => {
@@ -39,3 +40,4 @@ module.exports = function(actions) {
         allComplete: todos.map(todos => todos.every(todo => todo.get('complete')))
     };
 };
+

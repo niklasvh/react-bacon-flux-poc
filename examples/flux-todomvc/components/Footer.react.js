@@ -10,7 +10,7 @@ var Footer = React.createClass({
         allTodos: ReactPropTypes.array.isRequired,
         filter: ReactPropTypes.string.isRequired
     },
-    render: function() {
+    render() {
         var allTodos = this.props.allTodos;
         var total = allTodos.length;
 
@@ -25,16 +25,19 @@ var Footer = React.createClass({
                     <strong>{itemsLeft}</strong> {itemsLeftPhrase}
                 </span>
                 <ul id="filters">
-                    <Filter onUpdate={this.getActions().todo.setFilter.emit} filter={Constants.FILTER_ALL} active={this.props.filter === Constants.FILTER_ALL}>All</Filter>
-                    <Filter onUpdate={this.getActions().todo.setFilter.emit} filter={Constants.FILTER_ACTIVE} active={this.props.filter === Constants.FILTER_ACTIVE}>Active</Filter>
-                    <Filter onUpdate={this.getActions().todo.setFilter.emit} filter={Constants.FILTER_COMPLETE} active={this.props.filter === Constants.FILTER_COMPLETE}>Complete</Filter>
+                    <Filter onUpdate={this._setFilter} filter={Constants.FILTER_ALL} active={this.props.filter === Constants.FILTER_ALL}>All</Filter>
+                    <Filter onUpdate={this._setFilter} filter={Constants.FILTER_ACTIVE} active={this.props.filter === Constants.FILTER_ACTIVE}>Active</Filter>
+                    <Filter onUpdate={this._setFilter} filter={Constants.FILTER_COMPLETE} active={this.props.filter === Constants.FILTER_COMPLETE}>Complete</Filter>
                 </ul>
                 {clearCompletedButton}
             </footer>
         );
     },
-    _onClearCompletedClick: function() {
-        this.getActions().todo.destroyCompleted.emit();
+    _setFilter(filter) {
+        this.getActions().todo.setFilter.push(filter);
+    },
+    _onClearCompletedClick() {
+        this.getActions().todo.destroyCompleted.push();
     }
 });
 

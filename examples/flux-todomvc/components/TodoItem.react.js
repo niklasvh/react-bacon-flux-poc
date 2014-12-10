@@ -29,17 +29,17 @@ var TodoItem = React.createClass({
         );
     },
     _onToggleComplete: function() {
-        this.getActions().todo.toggleComplete.emit(this.props.todo);
+        this.getActions().todo.toggleComplete.push(this.props.todo);
     },
     _onDoubleClick: function() {
         this.setState({isEditing: true});
     },
     _onSave: function(text) {
-        this.getActions().todo.updateText.emit(this.props.todo.id, text);
+        this.getActions().todo.updateText.push({id: this.props.todo.id, text: text});
         this.setState({isEditing: false});
     },
     _onDestroyClick: function() {
-        this.getActions().todo.destroy.emit(this.props.todo.id);
+        this.getActions().todo.destroy.push(this.props.todo);
     }
 });
 

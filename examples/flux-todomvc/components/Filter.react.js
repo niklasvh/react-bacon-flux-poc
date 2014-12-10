@@ -2,6 +2,9 @@ var React = require('react/addons');
 var cx = React.addons.classSet;
 
 var Filter = React.createClass({
+    shouldComponentUpdate(nextProps) {
+        return this.props.active !== nextProps.active;
+    },
     render: function() {
         var classes = cx({selected: this.props.active});
         return (
