@@ -12,27 +12,36 @@ var pushState = (state) => {
     }
 };
 
-var isChecked = event => event.target.checked;
-var getSelected = options => [].slice.call(options, 0).filter(options => options.selected);
-var getEventSelectedOptions = event => getSelected(event.target.options).map(target => target.value);
-
 module.exports = function() {
-    var text = Inputbox.text.map(event => event.target.value).skipDuplicates();
-    var dropdown = Dropdown.dropdown.map(getEventSelectedOptions).skipDuplicates();
-
     var popStream = hasHistory ? Bacon.fromEventTarget(window, "popstate", event => event.state)
         .filter(value => !!value) : Bacon.never();
 
-    var historyStream = Bacon.combineTemplate({
-        text: text.toProperty("Initial value"),
-        item1: HistoryApp.item1.map(isChecked).toProperty(false),
-        item2: HistoryApp.item2.map(isChecked).toProperty(true),
-        item3: HistoryApp.item3.map(isChecked).toProperty(false),
-        dropdown: dropdown.toProperty(["value2"])
-    }).doAction(pushState).flatMapLatest(state => popStream.toProperty(state));
+    var historyStream = Bacon.update(
+        Immutable.Map({
+            text: "Initial value",
+            item1: false,
+            item2: true,
+            item3: false,
+            dropdown: ["value2"]
+        }),
+        popStream, (store, state) => Immutable.Map(state),
+        Inputbox.text, (store, text) => store.set("text", text),
+        HistoryApp.item1, (store, state) => store.set("item1", state),
+        HistoryApp.item2, (store, state) => store.set("item2", state),
+        HistoryApp.item3, (store, state) => store.set("item3", state),
+        Dropdown.dropdown, (store, state) => store.set("dropdown", state)
+    ).map(store => store.toJS());
+
+    historyStream.sampledBy(Bacon.mergeAll([
+        Inputbox.text,
+        HistoryApp.item1,
+        HistoryApp.item2,
+        HistoryApp.item3,
+        Dropdown.dropdown
+    ])).onValue(pushState);
 
     return {
         history: historyStream,
-        size: historyStream.map(() => hasHistory ? history.length: 0).toProperty(0)
-    }
+        size: historyStream.map(() => hasHistory ? history.length: 0).changes().toProperty(0)
+    };
 };

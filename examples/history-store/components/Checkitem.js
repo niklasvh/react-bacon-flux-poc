@@ -7,6 +7,10 @@ var Checkitem = React.createClass({
 
     stateFromStores: stores => ({history: stores.history}),
 
+    _onChange(event) {
+        this.props.onChange(event.target.checked)
+    },
+
     render: function() {
         return (
             <div>
@@ -14,7 +18,7 @@ var Checkitem = React.createClass({
                 <input
                     id={this.props.item}
                     type="checkbox"
-                    onChange={this.props.onChange}
+                    onChange={this._onChange}
                     checked={this.state.history[this.props.item]}
                 />
             </div>

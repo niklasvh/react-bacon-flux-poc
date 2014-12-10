@@ -20,7 +20,7 @@ var HistoryApp = React.createClass({
 
     stateFromStores: stores => ({history: stores}),
 
-    render: function() {
+    render() {
         return (
             <div>
                 <h2>React with History API store</h2>
