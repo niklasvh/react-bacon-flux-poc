@@ -26,7 +26,7 @@
     ]
   },
   "scripts": {
-    "test": "mocha"
+    "start": "node examples/todomvc-quickstart/server.js"
   },
   "author": "Niklas von Hertzen",
   "license": "MIT"
