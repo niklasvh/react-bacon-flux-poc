@@ -1,5 +1,7 @@
 # Getting started
 
+    git clone git@github.com:niklasvh/react-bacon-flux-poc.git
+    cd react-bacon-flux-poc
     npm install
     npm start
 
