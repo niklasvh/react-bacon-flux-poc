@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var TodoApp = require('./components/TodoApp.react');
 var StoreMixin = require('../../lib/store.mixin');
 var Context = require('./context');
@@ -31,4 +31,5 @@ if (typeof window !== 'undefined') {
     var ApplicationElement = React.createFactory(App);
     React.render(Context(ApplicationElement), document);
     window.React = React; // export for http://fb.me/react-devtools
+    window.Perf = React.addons.Perf;
 }

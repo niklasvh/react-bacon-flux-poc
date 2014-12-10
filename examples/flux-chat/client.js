@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var ChatApp = require('./components/ChatApp.react');
 var StoreMixin = require('../../lib/store.mixin');
 var Context = require('./context');
@@ -26,5 +26,6 @@ module.exports = App;
 if (typeof window !== 'undefined') {
     var ApplicationElement = React.createFactory(App);
     React.render(Context(ApplicationElement), document);
-    window.React = React; // export for http://fb.me/react-devtools
+    window.React = React; // export for http://fb.me/react-
+    window.Perf = React.addons.Perf;
 }

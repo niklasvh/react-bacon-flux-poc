@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var HistoryApp = require('./components/HistoryApp');
 var Context = require('./context');
 var StoreMixin = require('../../lib/store.mixin');
@@ -25,4 +25,5 @@ if (typeof window !== 'undefined') {
     var ApplicationElement = React.createFactory(App);
     React.render(Context(ApplicationElement), document);
     window.React = React; // export for http://fb.me/react-devtools
+    window.Perf = React.addons.Perf;
 }
