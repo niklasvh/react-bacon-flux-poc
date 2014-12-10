@@ -13,8 +13,7 @@ var App = React.createClass({
 module.exports = App;
 
 if (typeof window !== 'undefined') {
-    var ApplicationElement = React.createFactory(App);
-    React.render(ApplicationElement(), document.querySelector("#todoapp"));
+    React.render(<App />, document.querySelector("#todoapp"));
     window.React = React; // export for http://fb.me/react-devtools
     window.Perf = React.addons.Perf;
     window.actions = actions;
