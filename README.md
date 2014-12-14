@@ -1,6 +1,6 @@
 # Flux with Bacon.js
 
-[Blog post](http://blog.hertzen.com/post/102991359167/flux-inspired-reactive-data-flow-using-react-and) regarding the implementation. Examples forked from [facebook/flux](https://github.com/facebook/flux).
+[Blog post](http://reaktor.fi/blog/flux-inspired-reactive-data-flow-using-react-and-bacon-js/) regarding the implementation. Examples forked from [facebook/flux](https://github.com/facebook/flux).
 
 ## Running
 
