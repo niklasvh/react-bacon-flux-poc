@@ -2,7 +2,7 @@ var Immutable = require('immutable');
 var Bacon = require('baconjs');
 var ChatMessageUtils = require('../utils/ChatMessageUtils');
 
-var getCreatedMessageData = (text, threadId) => {
+var getCreatedMessageData = (threadId, text) => {
     var timestamp = Date.now();
     return Immutable.Map({
         id: 'm_' + timestamp,
@@ -20,8 +20,8 @@ var getAllForThread = (messages, threadId) => messages.filter(message => message
 var toJS = todos => todos.toList().toJS();
 
 module.exports = function(actions, ThreadStore) {
-    var createMessage = actions.ChatMessage.createMessage
-        .combine(ThreadStore.getCurrentID, getCreatedMessageData)
+    var createMessage = ThreadStore.getCurrentID
+        .sampledBy(actions.ChatMessage.createMessage, getCreatedMessageData)
         .map(message => messages => messages.set(message.get('id'), message));
 
     var loadMessages = actions.ChatMessage.getAllMessages
